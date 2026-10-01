@@ -1,0 +1,313 @@
+% !TEX TS-program = xelatex
+% Карточки к игре «Шесть пешек» (Hexapawn): 70 карточек с ходами и страница начальной расстановки.
+
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+
+\IfFontExistsTF{Liberation Serif}{\setmainfont{Liberation Serif}\setsansfont{Liberation Sans}}{%
+\IfFontExistsTF{DejaVu Serif}{\setmainfont{DejaVu Serif}\setsansfont{DejaVu Sans}}{%
+  \setmainfont{CMU Serif}\setsansfont{CMU Sans Serif}}}
+\IfFontExistsTF{Liberation Mono}{\setmonofont{Liberation Mono}}{
+\IfFontExistsTF{DejaVu Sans Mono}{\setmonofont{DejaVu Sans Mono}}{%
+\setmonofont{CMU Typewriter Text}}}
+
+\setlength{\parindent}{0pt}
+
+% Цвета и рисование доски
+\input{board.tex}
+
+% Колонтитул с лицензией CC BY-SA 4.0 — общий для всех документов.
+\input{colophon.tex}
+\pagestyle{ccfoot}
+
+\begin{document}
+
+\hexcard{1,2,3}{7,8,9}{1/4/arrow4,2/5/arrow2,3/6/arrow3}{Номер хода: 1}
+\cardfoot{1/71}{1/33}
+\newpage
+
+\hexcard{2,3,4}{5,7,9}{3/6/arrow1,3/5/arrow4}{Номер хода: 3}
+\cardfoot{2/71}{2/33}
+\newpage
+
+\hexcard{2,3}{4,7,9}{2/5/arrow1,2/4/arrow2,3/6/arrow3}{Номер хода: 3}
+\cardfoot{3/71}{3/33}
+\newpage
+
+\hexcard{2,3,4}{6,7,8}{4/8/arrow1,2/5/arrow2,2/6/arrow4}{Номер хода: 3}
+\cardfoot{4/71}{4/33}
+\newpage
+
+\hexcard{1,3,5}{4,8,9}{5/9/arrow3,3/6/arrow2}{Номер хода: 3}
+\cardfoot{5/71}{5/33}
+\newpage
+
+\hexcard{1,3}{5,8,9}{1/4/arrow1,1/5/arrow2,3/6/arrow3,3/5/arrow4}{Номер хода: 3}
+\cardfoot{6/71}{6/33}
+\newpage
+
+\hexcard{1,3,5}{6,7,8}{5/7/arrow1,1/4/arrow4}{Номер хода: 3}
+\cardfoot{7/71}{7/33}
+\newpage
+
+\hexcard{1,3}{5,7,8}{1/4/arrow1,1/5/arrow2,3/6/arrow3,3/5/arrow4}{Номер хода: 3}
+\cardfoot{8/71}{8/33}
+\newpage
+
+\hexcard{1,2,6}{4,8,9}{6/8/arrow1,2/5/arrow4,2/4/arrow3}{Номер хода: 3}
+\cardfoot{9/71}{9/33}
+\newpage
+
+\hexcard{1,2,6}{5,7,9}{1/4/arrow3,1/5/arrow2}{Номер хода: 3}
+\cardfoot{10/71}{10/33}
+\newpage
+
+\hexcard{1,2}{6,7,9}{1/4/arrow4,2/5/arrow2,2/6/arrow3}{Номер хода: 3}
+\cardfoot{11/71}{11/33}
+\newpage
+
+\hexcard{2,4}{5,9}{4/7/arrow1}{Номер хода: 5}
+\cardfoot{12/71}{12/33}
+\newpage
+
+\hexcard{2,4,5}{6,7}{5/8/arrow1,5/7/arrow2,2/6/arrow3}{Номер хода: 5}
+\cardfoot{13/71}{13/33}
+\newpage
+
+\hexcard{3}{4,5,9}{3/6/arrow1,3/5/arrow4}{Номер хода: 5}
+\cardfoot{14/71}{14/33}
+\newpage
+
+\hexcard{3,5}{4,6,7}{5/8/arrow3,5/7/arrow2}{Номер хода: 5}
+\cardfoot{15/71}{15/33}
+\newpage
+
+\hexcard{3}{4,5,7}{3/6/arrow1,3/5/arrow4}{Номер хода: 5}
+\cardfoot{16/71}{16/33}
+\newpage
+
+\hexcard{3,4}{5,6,8}{4/7/arrow1,4/8/arrow2,3/5/arrow4}{Номер хода: 5}
+\cardfoot{17/71}{17/33}
+\newpage
+
+\hexcard{3,4,6}{5,7}{6/9/arrow3,3/5/arrow2}{Номер хода: 5}
+\cardfoot{18/71}{18/33}
+\newpage
+
+\hexcard{3,6}{4,7}{6/9/arrow2}{Номер хода: 5}
+\cardfoot{19/71}{19/33}
+\newpage
+
+\hexcard{1,5}{4,6,9}{5/8/arrow1,5/9/arrow4}{Номер хода: 5}
+\cardfoot{20/71}{20/33}
+\newpage
+
+\hexcard{1,6}{4,5,8}{6/9/arrow1,6/8/arrow4,1/5/arrow3}{Номер хода: 5}
+\cardfoot{21/71}{21/33}
+\newpage
+
+\hexcard{3}{5,8}{3/6/arrow3,3/5/arrow2}{Номер хода: 5}
+\cardfoot{22/71}{22/33}
+\newpage
+
+\hexcard{1}{5,6,9}{1/4/arrow1,1/5/arrow4}{Номер хода: 5}
+\cardfoot{23/71}{23/33}
+\newpage
+
+\hexcard{1,5}{6,8}{1/4/arrow3}{Номер хода: 5}
+\cardfoot{24/71}{24/33}
+\newpage
+
+\hexcard{1}{5,8}{1/4/arrow3,1/5/arrow2}{Номер хода: 5}
+\cardfoot{25/71}{25/33}
+\newpage
+
+\hexcard{3,5}{4,8}{3/6/arrow4}{Номер хода: 5}
+\cardfoot{26/71}{26/33}
+\newpage
+
+\hexcard{1}{5,6,7}{1/4/arrow1,1/5/arrow4}{Номер хода: 5}
+\cardfoot{27/71}{27/33}
+\newpage
+
+\hexcard{1,4,6}{5,9}{4/7/arrow3,1/5/arrow2}{Номер хода: 5}
+\cardfoot{28/71}{28/33}
+\newpage
+
+\hexcard{1,4}{6,9}{4/7/arrow1}{Номер хода: 5}
+\cardfoot{29/71}{29/33}
+\newpage
+
+\hexcard{2,5,6}{4,9}{5/8/arrow4,5/9/arrow2,2/4/arrow3}{Номер хода: 5}
+\cardfoot{30/71}{30/33}
+\newpage
+
+\hexcard{2,6}{5,7}{6/9/arrow2}{Номер хода: 5}
+\cardfoot{31/71}{31/33}
+\newpage
+
+\hexcard{4,6}{5}{4/7/arrow1,6/9/arrow4}{Номер хода: 7}
+\cardfoot{32/71}{32/33}
+\newpage
+
+\hexcard{5}{4,6}{5/8/arrow3}{Номер хода: 7}
+\cardfoot{33/71}{33/33}
+\newpage
+
+\hexcard{1,3,5}{7,8,9}{7/4/arrow3,7/5/arrow4,9/5/arrow2,9/6/arrow1}{Номер хода: 2}
+\cardfoot{34/71}{1/37}
+\newpage
+
+\hexcard{2,3,4}{7,8,9}{8/4/arrow3,8/5/arrow4,9/6/arrow2}{Номер хода: 2}
+\cardfoot{35/71}{2/37}
+\newpage
+
+\hexcard{1,2,6}{7,8,9}{7/4/arrow1,8/5/arrow4,8/6/arrow3}{Номер хода: 2}
+\cardfoot{36/71}{3/37}
+\newpage
+
+\hexcard{3,5}{4,7,9}{7/5/arrow4,9/5/arrow2,9/6/arrow1,4/1/arrow3}{Номер хода: 4}
+\cardfoot{37/71}{4/37}
+\newpage
+
+\hexcard{1,5}{6,7,9}{7/4/arrow1,7/5/arrow2,9/5/arrow4,6/3/arrow3}{Номер хода: 4}
+\cardfoot{38/71}{5/37}
+\newpage
+
+\hexcard{3,4}{5,8,9}{8/4/arrow2,9/6/arrow1,5/2/arrow3,5/3/arrow4}{Номер хода: 4}
+\cardfoot{39/71}{6/37}
+\newpage
+
+\hexcard{1,6}{5,7,8}{7/4/arrow1,8/6/arrow2,5/1/arrow4,5/2/arrow3}{Номер хода: 4}
+\cardfoot{40/71}{7/37}
+\newpage
+
+\hexcard{2,4,5}{7,9}{7/5/arrow4,9/5/arrow2,9/6/arrow1}{Номер хода: 4}
+\cardfoot{41/71}{8/37}
+\newpage
+
+\hexcard{2,5,6}{7,9}{7/4/arrow1,7/5/arrow2,9/5/arrow3}{Номер хода: 4}
+\cardfoot{42/71}{9/37}
+\newpage
+
+\hexcard{3,4,6}{7,8}{8/4/arrow2,8/5/arrow3,8/6/arrow4}{Номер хода: 4}
+\cardfoot{43/71}{10/37}
+\newpage
+
+\hexcard{1,4,6}{8,9}{8/4/arrow1,8/5/arrow3,8/6/arrow2}{Номер хода: 4}
+\cardfoot{44/71}{11/37}
+\newpage
+
+\hexcard{1,6}{5,8,9}{8/6/arrow4,5/1/arrow1,5/2/arrow3}{Номер хода: 4}
+\cardfoot{45/71}{12/37}
+\newpage
+
+\hexcard{3,4}{5,7,8}{8/4/arrow4,5/2/arrow1,5/3/arrow2}{Номер хода: 4}
+\cardfoot{46/71}{13/37}
+\newpage
+
+\hexcard{1,5,6}{4,8,9}{8/6/arrow3,9/5/arrow2}{Номер хода: 4}
+\cardfoot{47/71}{14/37}
+\newpage
+
+\hexcard{3,4,5}{6,7,8}{7/5/arrow1,8/4/arrow4}{Номер хода: 4}
+\cardfoot{48/71}{15/37}
+\newpage
+
+\hexcard{2,6}{4,7,9}{4/1/arrow3,4/2/arrow2}{Номер хода: 4}
+\cardfoot{49/71}{16/37}
+\newpage
+
+\hexcard{2,4}{6,7,9}{6/2/arrow1,6/3/arrow4}{Номер хода: 4}
+\cardfoot{50/71}{17/37}
+\newpage
+
+\hexcard{3,5}{8,9}{9/5/arrow2,9/6/arrow3}{Номер хода: 4}
+\cardfoot{51/71}{18/37}
+\newpage
+
+\hexcard{1,5}{7,8}{7/4/arrow1,7/5/arrow4}{Номер хода: 4}
+\cardfoot{52/71}{19/37}
+\newpage
+
+\hexcard{1,5}{8,9}{9/5/arrow2,9/6/arrow3}{Номер хода: 4}
+\cardfoot{53/71}{20/37}
+\newpage
+
+\hexcard{3,5}{7,8}{7/4/arrow1,7/5/arrow4}{Номер хода: 4}
+\cardfoot{54/71}{21/37}
+\newpage
+
+\hexcard{3,4}{7,9}{9/6/arrow3}{Номер хода: 4}
+\cardfoot{55/71}{22/37}
+\newpage
+
+\hexcard{1,6}{7,9}{7/4/arrow1}{Номер хода: 4}
+\cardfoot{56/71}{23/37}
+\newpage
+
+\hexcard{6}{4,5,9}{4/1/arrow3,5/2/arrow2}{Номер хода: 6}
+\cardfoot{57/71}{24/37}
+\newpage
+
+\hexcard{4}{5,6,7}{5/2/arrow1,6/3/arrow4}{Номер хода: 6}
+\cardfoot{58/71}{25/37}
+\newpage
+
+\hexcard{4,5,6}{7}{7/5/arrow2}{Номер хода: 6}
+\cardfoot{59/71}{26/37}
+\newpage
+
+\hexcard{4,5,6}{9}{9/5/arrow4}{Номер хода: 6}
+\cardfoot{60/71}{27/37}
+\newpage
+
+\hexcard{5,6}{4,8}{8/6/arrow3,4/1/arrow2}{Номер хода: 6}
+\cardfoot{61/71}{28/37}
+\newpage
+
+\hexcard{4,5}{6,8}{8/4/arrow1,6/3/arrow4}{Номер хода: 6}
+\cardfoot{62/71}{29/37}
+\newpage
+
+\hexcard{6}{4,5,7}{4/1/arrow3,5/2/arrow2}{Номер хода: 6}
+\cardfoot{63/71}{30/37}
+\newpage
+
+\hexcard{4}{5,6,9}{5/2/arrow1,6/3/arrow4}{Номер хода: 6}
+\cardfoot{64/71}{31/37}
+\newpage
+
+\hexcard{5}{4,9}{9/5/arrow4,9/6/arrow2,4/1/arrow3}{Номер хода: 6}
+\cardfoot{65/71}{32/37}
+\newpage
+
+\hexcard{5}{6,7}{7/4/arrow1,7/5/arrow4,6/3/arrow3}{Номер хода: 6}
+\cardfoot{66/71}{33/37}
+\newpage
+
+\hexcard{4}{5,8}{8/4/arrow2,5/2/arrow3}{Номер хода: 6}
+\cardfoot{67/71}{34/37}
+\newpage
+
+\hexcard{6}{5,8}{8/6/arrow1,5/2/arrow4}{Номер хода: 6}
+\cardfoot{68/71}{35/37}
+\newpage
+
+\hexcard{5}{4,7}{7/5/arrow3,4/1/arrow2}{Номер хода: 6}
+\cardfoot{69/71}{36/37}
+\newpage
+
+\hexcard{5}{6,9}{9/5/arrow1,6/3/arrow4}{Номер хода: 6}
+\cardfoot{70/71}{37/37}
+\newpage
+
+\hexcard{1,2,3}{7,8,9}{}{Начальная расстановка пешек}
+\cardfoot{71/71}{}
+\newpage
+
+\end{document}

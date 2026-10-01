@@ -1,0 +1,116 @@
+name: Сборка
+
+# Запускается при каждом push (включая теги), при PR и вручную.
+# Смысл - поймать сломанную сборку и испорченную вёрстку до того, как PDF попадут в релиз.
+# Сборка без локального TeX Live не нужна — готовые файлы лежат в артефактах и в Releases.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  # Шесть PDF, проверка объёма и артефакт запуска. Выполняется на каждом пуше,
+  # на PR и вручную. Артефакт живёт 90 дней — это временное хранилище для
+  # проверки, а не то, что получает пользователь; пользователю достаётся
+  # архив из релиза, который собирает задача release.
+  pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Установить TeX Live
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            texlive-xetex \
+            texlive-latex-recommended \
+            texlive-latex-extra \
+            texlive-pictures \
+            texlive-fonts-recommended \
+            texlive-lang-cyrillic \
+            fonts-liberation \
+            fonts-dejavu-core \
+            poppler-utils
+
+      - name: Собрать PDF
+        run: make
+
+      # Главная проверка для этого репозитория.
+      # Правка не должна менять объём:
+      # 71 карточка обязана остаться 71 страницей, иначе комплект разъезжается при печати и нарезке.
+      # Проверяются не все документы, а только те, где число страниц задано самой конструкцией.
+      # Правка формулировки в методичке, правилах или примерах вполне может добавить страницу — это не ошибка.
+      #
+      #   cards  - 71 страница = 70 карточек + расстановка, между карточками стоит \newpage.
+      #            Пропала карточка или доска не влезла — значит комплект разъехался.
+      #   field  - 1 страница, во всём документе 21 слово: подписи клеток и название.
+      #            Текст, который мог бы раздуть документ, отсутствует.
+      #   rating - 2 страницы: таблица, затем принудительный \newpage и график.
+      #            Если таблица перестала помещаться, график уедет на третью страницу.
+      - name: Проверить число страниц
+        run: |
+          set -eu
+          check() {
+            got=$(pdfinfo "build/$1.pdf" | awk '/^Pages:/{print $2}')
+            if [ "$got" != "$2" ]; then
+              echo "::error file=build/$1.pdf::ожидалось $2 страниц, получено $got"
+              return 1
+            fi
+            echo "  $1.pdf: $got стр. ✓"
+          }
+          check cards 71
+          check field 1
+          check rating 2
+
+      - name: Приложить PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: hexapawn-sama
+          path: build/*.pdf
+          if-no-files-found: error
+
+  # Публикация. Запускается только при пуше тега вида v1.0, v2.0 — на обычный
+  # push в ветку релиз создавать нельзя, поэтому условие ниже обязательно.
+  #
+  # PDF берутся из артефакта задачи pdf, а не собираются заново: TeX Live там
+  # уже стоит, а проверка числа страниц уже прошла. needs: pdf означает, что
+  # при упавшей сборке сюда мы не попадём вовсе — сломанная вёрстка в релиз
+  # не попадёт.
+  #
+  # contents: write нужен этому job и только ему: создание релиза пишет в
+  # репозиторий. Общий permissions над workflow остаётся contents: read,
+  # чтобы остальные задачи не могли ничего записывать.
+  release:
+    needs: pdf
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Забрать PDF из артефактов
+        uses: actions/download-artifact@v4
+        with:
+          name: hexapawn-sama
+
+      # -j убирает из архива путь build/, и файлы лежат сразу в корне.
+      # Имя архива без версии: ссылка releases/latest/download/ в README
+      # остаётся рабочей при выпуске следующих версий.
+      - name: Собрать архив
+        run: zip -j hexapawn-sama.zip *.pdf
+
+      # GITHUB_TOKEN выдаётся Actions автоматически, отдельный секрет не нужен.
+      # Он умеет создавать релизы, пока у job есть contents: write.
+      # --generate-notes берёт описание из коммитов между прошлым тегом и этим.
+      - name: Опубликовать релиз
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            hexapawn-sama.zip \
+            --title "Hexapawn ${GITHUB_REF_NAME}" \
+            --generate-notes

@@ -1,0 +1,31 @@
+% !TEX TS-program = xelatex
+% Игровое поле для игры в «Шесть пешек» (Hexapawn).
+
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+
+\IfFontExistsTF{Liberation Serif}{\setmainfont{Liberation Serif}\setsansfont{Liberation Sans}}{%
+\IfFontExistsTF{DejaVu Serif}{\setmainfont{DejaVu Serif}\setsansfont{DejaVu Sans}}{%
+  \setmainfont{CMU Serif}\setsansfont{CMU Sans Serif}}}
+\IfFontExistsTF{Liberation Mono}{\setmonofont{Liberation Mono}}{
+\IfFontExistsTF{DejaVu Sans Mono}{\setmonofont{DejaVu Sans Mono}}{%
+\setmonofont{CMU Typewriter Text}}}
+
+\setlength{\parindent}{0pt}
+
+% Цвета и рисование доски
+\input{board.tex}
+
+% Колонтитул с лицензией CC BY-SA 4.0 — общий для всех документов.
+\input{colophon.tex}
+\pagestyle{ccfoot}
+
+\begin{document}
+
+\hexcard{}{}{}{Hexapawn / Шесть пешек}
+
+\end{document}

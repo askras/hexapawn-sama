@@ -1,0 +1,187 @@
+% Общая реализация игрового поля «шесть пешек» (Hexapawn).
+%
+% Файл НЕ самостоятельный: подключается через \input{board.tex} из rules.tex,
+% examples.tex, cards.tex, field.tex и guide.tex. rating.tex не подключает:
+% ему нужны из палитры только цвета, поэтому он берёт colors.tex напрямую.
+% Содержит только определения — \documentclass здесь быть не должно.
+%
+% Квадраты нумеруются слева направо и снизу вверх, как на настоящей доске:
+%   7 8 9   <- ряд 3
+%   4 5 6   <- ряд 2
+%   1 2 3   <- ряд 1
+% То есть a1=1, b1=2, c1=3, a2=4, …, c3=9.
+% Ряд 1 внизу: белые стоят в ряду 1, чёрные в ряду 3.
+% Подписи совпадают с подписями на игровом поле.
+%
+% Что где живёт:
+%   \sqcx, \sqcy      — геометрия квадрата по его номеру;
+%   \boardgrid        — тонкая сетка (карточки, игровое поле);
+%   \boardgridbold    — сетка одной толщины с границей (пустое поле);
+%   \boardlabels      — подписи a/b/c и 3/2/1 по краям доски 5,4 см;
+%   \boardtitle       — заголовок над доской 5,4 см;
+%   \drawpawns        — пешки, заданные номерами квадратов;
+%   \board, \boardmoves — небольшие иллюстрации к тексту (доска 1,9 см);
+%   \card, \hexcard, \cardfoot — карточка целиком (доска 5,4 см).
+%
+% Масштаб доски задаётся стилем TikZ, который выбирает вызывающий документ:
+% rulesheet — 1,9 см (иллюстрации в тексте),
+% cardsheet — 5,4 см (карточки).
+% =====================================================================================================================
+
+\RequirePackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+% Палитра вынесена в colors.tex, см. там же список цветов и что ими красится.
+\input{colors.tex}
+
+
+% =====================================================================================================================
+% Геометрия квадрата по его номеру
+% =====================================================================================================================
+\newcommand{\sqcx}[1]{\pgfmathsetmacro{\qx}{mod(#1-1,3)+0.5}}       % центр по X
+\newcommand{\sqcy}[1]{\pgfmathsetmacro{\qy}{floor((#1-1)/3)+0.5}}   % центр по Y
+
+% =====================================================================================================================
+% Сетка доски
+% =====================================================================================================================
+% Тонкая: внутренние линии светло-серые, граница толще. Карточки и поле.
+\newcommand{\boardgrid}{%
+  \foreach \gl in {1,2} {\draw[gridline,line width=0.4pt] (\gl,0) -- (\gl,3) (0,\gl) -- (3,\gl);}%
+  \draw[ink,line width=1.2pt] (0,0) rectangle (3,3);%
+}
+% Для пустой доски: сетка той же толщины и цвета, что и граница.
+\newcommand{\boardgridbold}{%
+  \foreach \gl in {1,2} {\draw[ink,line width=1.2pt] (\gl,0) -- (\gl,3) (0,\gl) -- (3,\gl);}%
+  \draw[ink,line width=1.2pt] (0,0) rectangle (3,3);%
+}
+
+% =====================================================================================================================
+% Подписи и заголовок для доски 5,4 см. #1 --- стиль подписи, #2 --- заголовка.
+% Смещение 0,70 см пересчитано в единицы доски делением на размер клетки.
+% =====================================================================================================================
+\newcommand{\boardlabels}[1]{%
+  \foreach \cl/\lab in {0/a,1/b,2/c} {%
+    \node[#1] at (\cl+0.5,{-0.70/5.4}) {\lab};
+    \node[#1] at (\cl+0.5,{3.0+0.70/5.4}) {\lab};}%
+  \foreach \rw/\lab in {0/3,1/2,2/1} {%
+    \node[#1] at ({-0.70/5.4},{2.5-\rw}) {\lab};
+    \node[#1] at ({3.0+0.70/5.4},{2.5-\rw}) {\lab};}%
+}
+\newcommand{\boardtitle}[2]{%
+  \node[#2] at (1.5,{3.0+3.15/5.4}) {#1};%
+}
+
+% =====================================================================================================================
+% Пешки по номерам квадратов. Радиус задан в единицах доски.
+% =====================================================================================================================
+\newcommand{\drawpawns}[2]{%
+  \foreach \sqr in {#2} {\sqcx{\sqr}\sqcy{\sqr}\fill[pawn] (\qx,\qy) circle[radius=0.34];}%
+  \foreach \sqr in {#1} {\sqcx{\sqr}\sqcy{\sqr}%
+    \filldraw[fill=white,draw=pawn,line width=1.1pt] (\qx,\qy) circle[radius=0.34];}%
+}
+
+% =====================================================================================================================
+% Небольшие иллюстрации к тексту правил и примеров (доска 1,9 см).
+% Здесь пешки рисуются кружками-узлами, а не кругами: на маленьком размере так они лучше читаются.
+% =====================================================================================================================
+\tikzset{
+  rulesheet/.style={
+    x=1.9cm, y=1.9cm,
+    line width=0.5pt, baseline=(current bounding box.center)},
+  plainpawn/.style={circle, draw=pawn, line width=0.8pt, minimum size=7mm, inner sep=0pt},
+  blpawn/.style={plainpawn, fill=pawn, draw=pawn},
+  whpawn/.style={plainpawn, fill=white, draw=pawn},
+  moveline/.style={-{Stealth[length=2.4mm,width=1.7mm]}, line width=0.9pt, draw=moveink},
+}
+\newcommand{\rulesheetgrid}{%
+  \foreach \gl in {1,2} {\draw[ink!35] (\gl,0) -- (\gl,3) (0,\gl) -- (3,\gl);}%
+  \draw[ink, line width=1pt] (0,0) rectangle (3,3);%
+}
+% \board{<белые>}{<чёрные>}{подписи: 1 да, 0 нет}
+\newcommand{\board}[3]{%
+  \begin{tikzpicture}[rulesheet]
+    \rulesheetgrid
+    \foreach \s in {#1} {\sqcx{\s}\sqcy{\s}\node[whpawn] at (\qx,\qy) {};}
+    \foreach \s in {#2} {\sqcx{\s}\sqcy{\s}\node[blpawn] at (\qx,\qy) {};}
+    \ifnum#3=1\relax
+      \foreach \c/\l in {0/a,1/b,2/c} {%
+        \node[font=\scriptsize\sffamily, text=ink!70] at (\c+0.5,{-0.34}) {\l};
+        \node[font=\scriptsize\sffamily, text=ink!70] at (\c+0.5,{3.34}) {\l};}
+      \foreach \r in {1,2,3} {%
+        \node[font=\scriptsize\sffamily, text=ink!70] at ({-0.32},{\r-0.5}) {\r};
+        \node[font=\scriptsize\sffamily, text=ink!70] at ({3.32},{\r-0.5}) {\r};}
+    \fi
+  \end{tikzpicture}%
+}
+% \boardmoves{<белые>}{<чёрные>}{<ходы: from/to, ...>}
+\newcommand{\boardmoves}[3]{%
+  \begin{tikzpicture}[rulesheet]
+    \rulesheetgrid
+    \foreach \s in {#1} {\sqcx{\s}\sqcy{\s}\node[whpawn] at (\qx,\qy) {};}
+    \foreach \s in {#2} {\sqcx{\s}\sqcy{\s}\node[blpawn] at (\qx,\qy) {};}
+    \foreach \f/\t in {#3} {%
+      \sqcx{\f}\sqcy{\f}\pgfmathsetmacro{\fx}{\qx}\pgfmathsetmacro{\fy}{\qy}%
+      \sqcx{\t}\sqcy{\t}%
+      \draw[moveline] (\fx,\fy) -- (\qx,\qy);}
+  \end{tikzpicture}%
+}
+% Крестик взятия: \take в тексте.
+\newcommand{\take}{\ensuremath{\times}}
+
+% =====================================================================================================================
+% Карточка целиком (доска 5,4 см). Здесь пешки — круги, стрелки обрезаются
+% по краям, чтобы пешки оставались видимыми.
+% =====================================================================================================================
+\tikzset{
+  cardsheet/.style={x=5.4cm, y=5.4cm, line width=0.7pt, baseline=(current bounding box.center)},
+  movetip/.style={-{Stealth[length=4mm,width=3.2mm]}, line width=5pt},
+  squarelab/.style={font=\sffamily\bfseries\fontsize{36}{44}\selectfont, text=ink},
+  movelab/.style={font=\sffamily\bfseries\fontsize{28}{34}\selectfont, text=ink},
+  fieldlab/.style={font=\sffamily\bfseries\fontsize{36}{44}\selectfont,text=ink},
+  fieldtitle/.style={font=\sffamily\fontsize{28}{34}\selectfont\bfseries,text=ink},
+}
+% Насколько конец стрелки не доходит до центра квадрата назначения:
+% 0.13 для тихого хода, 0.54 для взятия.
+\newcommand{\quietstop}{0.13}
+\newcommand{\capturestop}{0.54}
+% \card{<белые>}{<чёрные>}{<ходы>}{<подпись>}
+% ходы перечисляются как <откуда>/<куда>/<цвет>, например 3/6/arrow1 по одному на каждый допустимый ход из этой позиции.
+% Стрелка идёт от пешки к пешке, но обрезается по краям:
+%   начало выходит из-под своей пешки,
+%   конец уходит под пешку назначения (тихий ход) или останавливается перед чужой (взятие).
+% Так пешки всегда остаются видимыми.
+\newcommand{\card}[4]{%
+  \begin{tikzpicture}[cardsheet]
+    \boardgrid
+    \foreach \mvfrom/\mvto/\mvcolor in {#3} {%
+      \global\let\stopat\quietstop
+      \foreach \sqr in {#1} {\ifnum\sqr=\mvto\relax\global\let\stopat\capturestop\fi}%
+      \foreach \sqr in {#2} {\ifnum\sqr=\mvto\relax\global\let\stopat\capturestop\fi}%
+      \sqcx{\mvfrom}\sqcy{\mvfrom}\pgfmathsetmacro{\fx}{\qx}\pgfmathsetmacro{\fy}{\qy}%
+      \sqcx{\mvto}\sqcy{\mvto}%
+      \pgfmathsetmacro{\ux}{\qx-\fx}\pgfmathsetmacro{\uy}{\qy-\fy}%
+      \pgfmathsetmacro{\ulen}{sqrt(\ux*\ux+\uy*\uy)}%
+      \pgfmathsetmacro{\sx}{round((\fx+0.40*\ux/\ulen)*100)/100}%
+      \pgfmathsetmacro{\sy}{round((\fy+0.40*\uy/\ulen)*100)/100}%
+      \pgfmathsetmacro{\ex}{round((\qx-\stopat*\ux/\ulen)*100)/100}%
+      \pgfmathsetmacro{\ey}{round((\qy-\stopat*\uy/\ulen)*100)/100}%
+      \draw[movetip,\mvcolor] (\sx,\sy) -- (\ex,\ey);%
+    }%
+    \drawpawns{#1}{#2}%
+    \boardlabels{squarelab}%
+    \boardtitle{#4}{movelab}%
+  \end{tikzpicture}%
+}
+% Карточка целиком: доска по центру листа.
+\newcommand{\hexcard}[4]{%
+  \vspace*{\fill}%
+  \begin{center}\card{#1}{#2}{#3}{#4}\end{center}%
+  \vspace*{\fill}%
+}
+% Колонтитул: «страница/всего» слева, «карточка/колода» справа.
+% Для страницы начальной расстановки номер в колоде не печатается.
+\newcommand{\cardfoot}[2]{%
+  \noindent\hbox to \textwidth{\color{black!30}\sffamily\fontsize{9}{11}\selectfont
+    #1\if\relax\detokenize{#2}\relax\else\hfil #2\fi}%
+  \vspace*{1.4cm}%
+}

@@ -1,0 +1,34 @@
+# Цель репозитория — не допускать лишнего шума в diff, а не задавать стиль.
+# Правила ниже описывают то, что уже есть во всех файлах проекта, поэтому
+# включение .editorconfig не должно вызвать ни одной правки.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+[*.tex]
+# LaTeX нечувствителен к пробелам в конце строки, обрезка безопасна.
+trim_trailing_whitespace = true
+
+[*.md]
+# В этом README жёстких переносов (двух пробелов в конце строки) нет,
+# поэтому хвостовые пробелы всегда — мусор.
+trim_trailing_whitespace = true
+
+[Makefile]
+# Рецепты make требуют табов; пробелы ломают сборку.
+indent_style = tab
+
+[LICENSE]
+# Юридический текст не редактируется автоматически.
+trim_trailing_whitespace = false
+
+[*.pdf]
+insert_final_newline = unset
+trim_trailing_whitespace = unset

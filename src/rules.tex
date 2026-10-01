@@ -1,0 +1,147 @@
+% !TEX TS-program = xelatex
+% Правила игры в «Шесть пешек» (Hexapawn)
+
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+\usepackage{enumitem}
+\usepackage{multicol}
+
+\IfFontExistsTF{Liberation Serif}{\setmainfont{Liberation Serif}\setsansfont{Liberation Sans}}{%
+\IfFontExistsTF{DejaVu Serif}{\setmainfont{DejaVu Serif}\setsansfont{DejaVu Sans}}{%
+  \setmainfont{CMU Serif}\setsansfont{CMU Sans Serif}}}
+\IfFontExistsTF{Liberation Mono}{\setmonofont{Liberation Mono}}{
+\IfFontExistsTF{DejaVu Sans Mono}{\setmonofont{DejaVu Sans Mono}}{%
+\setmonofont{CMU Typewriter Text}}}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\sloppy
+
+% Доска, пешки, стрелки и оформление карточки --- общая реализация, см. src/board.tex
+\input{board.tex}
+
+% Колонтитул с лицензией CC BY-SA 4.0 — общий для всех документов, см. src/colophon.tex.
+\input{colophon.tex}
+\pagestyle{ccfootpage}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries Правила игры в «шесть пешек» (Hexapawn)}\\[0.6em]
+\end{center}
+
+
+\section*{История появления игры}
+
+Игру придумал Мартин Гарднер с целью иллюстрации на простом примере возможности построения «спичечного робота» ---
+самообучающейся машины, состоящей из 24 спичечных коробков с разноцветными бусинками.
+Игра была описана в рубрике Mathematical Games журнала Scientific American в марте 1962 года.
+
+
+\section*{Доска и фигуры}
+
+Игра ведётся на квадратной доске $3\times3$.
+Ряды пронумерованы от 1 до 3 снизу вверх, столбцы обозначены буквами \texttt{a}, \texttt{b}, \texttt{c} слева направо.
+Поля называются \texttt{a1} --- \texttt{c3} по номеру ряда и букве столбца.
+У каждого из двух игроков по три пешки.
+В начале партии \textbf{белые занимают первый ряд}, а \textbf{чёрные --- третий}:
+
+\begin{center}
+\board{1,2,3}{7,8,9}{1}
+\end{center}
+
+
+\section*{Ходы}
+
+Игроки делают ходы по очереди, передвигая каждый раз ровно одну пешку.
+Белые всегда ходят первыми.
+
+Ходы пешек в основном совпадают с ходами пешек в обычных шахматах.
+Однако в отличие от шахмат не разрешаются:
+
+\begin{enumerate}[nosep]
+\item двойной ход пешкой в начале партии;
+\item взятие пешки противника на проходе;
+\item превращение пешки в какие-либо другие фигуры того же цвета.
+\end{enumerate}
+
+\newpage
+
+Разрешены только два типа ходов:
+
+\textbf{1. Ход вперёд} ---
+пешка передвигается на одну клетку вперёд по вертикали (у белых вверх, у чёрных вниз), если эта клетка свободна.
+\begin{center}
+\begin{multicols}{2}
+\boardmoves{1,2,3}{7,8,9}{1/4}
+\columnbreak \par
+\boardmoves{1,2,3}{7,8,9}{8/5}
+\end{multicols}
+\end{center}
+Ходить назад или стоять на месте нельзя.
+
+\textbf{2. Взятие} ---
+пешка бьёт пешку противника, стоящую на соседней по диагонали клетке впереди, и остаётся на освободившейся клетке.
+Взятая пешка снимается с доски.
+\begin{center}
+\begin{multicols}{2}
+\boardmoves{1,2,6}{4,8,9}{2/4} % Карточка 9/71 (9/37)
+\columnbreak \par
+\boardmoves{3,5}{4,7,9}{9/5} % Карточка 37/71 (4/37)
+\end{multicols}
+\end{center}
+
+Взятие не является обязательным: если пешка может сделать и ход вперёд, и взять, игрок выбирает сам.
+\begin{center}
+\begin{multicols}{2}
+\boardmoves{1,3}{5,8,9}{3/5, 3/6} % Карточка 6/71 (6/33)
+\columnbreak \par
+\boardmoves{3,5}{8,9}{9/5, 9/6} % Карточка 51/71 (18/37)
+\end{multicols}
+\end{center}
+
+
+\newpage
+
+
+\section*{Окончание партии}
+
+Партия заканчивается сразу, как только выполнится \emph{любое} из трёх условий:
+
+\textbf{1. Проход} --- пешку удалось провести в дальний, чужой ряд.
+\begin{center}
+\begin{multicols}{2}
+\boardmoves{1,3,5}{4,8,9}{5/9} % Карточка 5/71 (5/33)
+\columnbreak \par
+\boardmoves{2,6}{4,7,9}{4/2} % Карточка 49/71 (16/37)
+\end{multicols}
+\end{center}
+
+\textbf{2. Нет хода} --- противник не может сделать ход: все его пешки заблокированы, а брать нечего.
+\begin{center}
+\begin{multicols}{2}
+\boardmoves{1}{5,8}{1/5} % Карточка 25/71 (25/33)
+\columnbreak \par
+\boardmoves{3,4,6}{7,8}{8/6} % Карточка 43/71 (10/37)
+\end{multicols}
+\end{center}
+
+\textbf{3. Все пешки взяты} --- у противника не осталось ни одной пешки.
+\begin{center}
+\begin{multicols}{2}
+Для белых такая победа невозможна.
+\columnbreak \par
+\boardmoves{5}{4,9}{9/5} % Карточка 65/71 (32/37)
+\end{multicols}
+\end{center}
+
+Выигрывает партию тот, чьи условия выполнились первыми.
+
+Поскольку каждый ход необратим (пешка никогда не возвращается назад), партия всегда конечна, а ничья невозможна:
+победитель есть всегда.
+
+\end{document}

@@ -1,0 +1,186 @@
+% !TEX TS-program = xelatex
+% Примеры партий в игре «Шесть пешек» (Hexapawn)
+
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+\usepackage{enumitem}
+\usepackage{multicol}
+
+\IfFontExistsTF{Liberation Serif}{\setmainfont{Liberation Serif}\setsansfont{Liberation Sans}}{%
+\IfFontExistsTF{DejaVu Serif}{\setmainfont{DejaVu Serif}\setsansfont{DejaVu Sans}}{%
+  \setmainfont{CMU Serif}\setsansfont{CMU Sans Serif}}}
+\IfFontExistsTF{Liberation Mono}{\setmonofont{Liberation Mono}}{
+\IfFontExistsTF{DejaVu Sans Mono}{\setmonofont{DejaVu Sans Mono}}{%
+\setmonofont{CMU Typewriter Text}}}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\sloppy
+
+% Цвета и рисование доски
+\input{board.tex}
+
+% Колонтитул с лицензией CC BY-SA 4.0 — общий для всех документов.
+\input{colophon.tex}
+\pagestyle{ccfootpage}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries Примеры партий в «шесть пешек» (Hexapawn)}\\[0.6em]
+\end{center}
+
+
+\section*{Нотация в примерах:}
+
+\begin{center}
+\begin{tabular}{ll}
+1. & \texttt{a1-a2}, \texttt{b3$\times$a2} \\
+\end{tabular}
+\end{center}
+
+
+\begin{itemize}[nosep]
+\item Первым всегда ходит белый игрок (\texttt{a1-a2}), за ним --- чёрный (\texttt{b3$\times$a2});
+\item \texttt{a1-a2} --- ход белой пешки с поля \texttt{a1} на поле \texttt{a2};
+\item \texttt{b3$\times$a2} --- взятие: чёрная пешка с \texttt{b3} бьёт белую пешку на \texttt{a2}.
+\end{itemize}
+
+\begin{multicols}{3}
+\boardmoves{1,2,3}{7,8,9}{1/4}
+\columnbreak \par
+\boardmoves{2,3,4}{7,8,9}{8/4}
+\columnbreak \par
+\board{2,3}{4,7,9}{0}
+\end{multicols}
+
+\newpage
+
+
+\section*{Победа проходом в хужой ряд}
+
+\begin{center}
+\begin{tabular}{ll}
+1. & \texttt{b1-b2}, \texttt{a3$\times$b2} \\
+2. & \texttt{c1$\times$b2}, \texttt{c3-c2} \\
+3. & \texttt{a1-a2}, \texttt{c2-c1}
+\end{tabular}
+\end{center}
+
+Разберём партию по доскам:
+
+1.\texttt{b1-b2}, \texttt{a3$\times$b2}.
+Белые поставили пешку с \texttt{b1} на \texttt{b2}, и чёрные сразу взяли её пешкой с \texttt{a3}:
+\begin{multicols}{3}
+\boardmoves{1,2,3}{7,8,9}{2/5}
+\columnbreak \par
+\boardmoves{1,3,5}{7,8,9}{7/5}
+\columnbreak \par
+\board{1,3}{5,8,9}{0}
+\end{multicols}
+
+2. \texttt{c1$\times$b2}, \texttt{c3-c2}.
+Дальше ответное взятие со стороны белых, а чёрные спокойно идут вперед:
+\begin{multicols}{3}
+\boardmoves{1,3}{5,8,9}{3/5}
+\columnbreak \par
+\boardmoves{1,5}{8,9}{9/6}
+\columnbreak \par
+\board{1,5}{8,6}{0}
+\end{multicols}
+
+3. \texttt{a1-a2}, \texttt{c2-c1}
+Белые делают единственный доступный им ход и тут чёрные наносят решающий удар:
+\begin{multicols}{3}
+\boardmoves{1,5}{8,6}{1/4}
+\columnbreak \par
+\boardmoves{4,5}{8,6}{6/3}
+\columnbreak \par
+\board{4,5}{8,3}{0}
+\end{multicols}
+
+
+\section*{Победа блокировкой}
+
+\begin{center}
+\begin{tabular}{ll}
+1. & \texttt{a1-a2}, \texttt{b3-b2} \\
+2. & \texttt{c1$\times$b2}, \texttt{c3$\times$b2}
+\end{tabular}
+\end{center}
+
+
+1. \texttt{c1$\times$b2}, \texttt{c3-c2}.
+После ходов \texttt{c1$\times$b2}, \texttt{c3-c2} у белых впервые появляется открытая линия:
+\begin{multicols}{3}
+\boardmoves{1,2,3}{7,8,9}{1/4}
+\columnbreak \par
+\boardmoves{2,3,4}{7,8,9}{8/5}
+\columnbreak \par
+\board{2,3,4}{5,7,9}{0}
+\end{multicols}
+
+
+2. \texttt{c1$\times$b2}, \texttt{c3$\times$b2}.
+Дальше размен \texttt{c1$\times$b2} и \texttt{c3$\times$b2} --- и на доске остаются две белые пешки,
+\texttt{a2} и \texttt{b1}.
+Но ходить им некуда: \texttt{a3} и \texttt{b2} заняты чёрными.
+Белые заблокированы, и партия окончена всего за два хода чёрных:
+\begin{multicols}{3}
+\boardmoves{2,3,4}{5,7,9}{3/5}
+\columnbreak \par
+\boardmoves{2,4,5}{7,9}{9/5}
+\columnbreak \par
+\board{2,4,5}{5,7}{0}
+\end{multicols}
+
+\newpage
+
+
+\section*{Победа взятием всех пешек противника}
+
+Чёрные (но не белые) могут выиграть, взяв все пешки белых. Разберём такую партию:
+
+\begin{center}
+\begin{tabular}{ll}
+1. & \texttt{a1-a2}, \texttt{b3$\times$a2} \\
+2. & \texttt{b1-b2}, \texttt{a3$\times$b2} \\
+3. & \texttt{c1$\times$b2}, \texttt{c3$\times$b2}
+\end{tabular}
+\end{center}
+
+1. \texttt{c1$\times$b2}, \texttt{c3-c2}.
+Белые открывают пешку с \texttt{a1}, чёрные берут её пешкой с \texttt{b3}:
+\begin{multicols}{3}
+\boardmoves{1,2,3}{7,8,9}{1/4}
+\columnbreak \par
+\boardmoves{2,3,4}{7,8,9}{8/4}
+\columnbreak \par
+\board{2,3}{4,7,9}{0}
+\end{multicols}
+
+2. \texttt{b1-b2}, \texttt{a3$\times$b2}.
+Белые продвигаются вперёд, чёрные снова берут:
+\begin{multicols}{3}
+\boardmoves{2,3}{4,7,9}{2/5}
+\columnbreak \par
+\boardmoves{3,5}{4,7,9}{7/5}
+\columnbreak \par
+\board{3}{4,5,9}{0}
+\end{multicols}
+
+3. \texttt{c1$\times$b2}, \texttt{c3$\times$b2}.
+Белые делают ответное взятие, но чёрные забирают последнюю белую пешку:
+\begin{multicols}{3}
+\boardmoves{3}{4,5,9}{3/5}
+\columnbreak \par
+\boardmoves{5}{4,9}{9/5}
+\columnbreak \par
+\board{}{4,5}{0}
+\end{multicols}
+
+\end{document}

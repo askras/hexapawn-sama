@@ -1,0 +1,338 @@
+% !TEX TS-program = xelatex
+% Таблица результатов партий и график побед и поражений чёрных.
+
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+\usepackage[table]{xcolor}
+\RequirePackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+\IfFontExistsTF{Liberation Serif}{\setmainfont{Liberation Serif}\setsansfont{Liberation Sans}}{%
+\IfFontExistsTF{DejaVu Serif}{\setmainfont{DejaVu Serif}\setsansfont{DejaVu Sans}}{%
+  \setmainfont{CMU Serif}\setsansfont{CMU Sans Serif}}}
+\IfFontExistsTF{Liberation Mono}{\setmonofont{Liberation Mono}}{
+\IfFontExistsTF{DejaVu Sans Mono}{\setmonofont{DejaVu Sans Mono}}{%
+\setmonofont{CMU Typewriter Text}}}
+
+\setlength{\parindent}{0pt}
+
+% Палитра: нужны цвета (ink и др.) и график на tikz.
+\input{colors.tex}
+
+% Колонтитул с лицензией CC BY-SA 4.0 — общий для всех документов.
+\input{colophon.tex}
+\pagestyle{ccfoot}
+
+\begin{document}
+
+
+\begin{center}
+{\LARGE\bfseries Таблица результатов партий}\\[0.2em]
+{\small Поставьте галочку в столбец победителя каждой партии}\\[0.6em]
+
+\renewcommand{\arraystretch}{0.95}
+\footnotesize
+\begin{minipage}[t]{0.47\textwidth}
+\begin{tabular}{|>{\centering\arraybackslash}m{1.3cm}|>{\centering\arraybackslash}m{0.33\textwidth}|>{\centering\arraybackslash}m{0.33\textwidth}|}
+\hline
+\rowcolor{black!92}\textbf{\textcolor{white}{\parbox{1.3cm}{\centering Номер\\[-1pt]партии}}} & \textbf{\textcolor{white}{\parbox{0.33\textwidth}{\centering Белые\\[-1pt](гроссмейстер)}}} & \textbf{\textcolor{white}{\parbox{0.33\textwidth}{\centering Чёрные\\[-1pt](машина)}}}\\
+\hline
+1 & & \\
+\hline
+2 & & \\
+\hline
+3 & & \\
+\hline
+4 & & \\
+\hline
+5 & & \\
+\hline
+6 & & \\
+\hline
+7 & & \\
+\hline
+8 & & \\
+\hline
+9 & & \\
+\hline
+10 & & \\
+\hline
+11 & & \\
+\hline
+12 & & \\
+\hline
+13 & & \\
+\hline
+14 & & \\
+\hline
+15 & & \\
+\hline
+16 & & \\
+\hline
+17 & & \\
+\hline
+18 & & \\
+\hline
+19 & & \\
+\hline
+20 & & \\
+\hline
+21 & & \\
+\hline
+22 & & \\
+\hline
+23 & & \\
+\hline
+24 & & \\
+\hline
+25 & & \\
+\hline
+26 & & \\
+\hline
+27 & & \\
+\hline
+28 & & \\
+\hline
+29 & & \\
+\hline
+30 & & \\
+\hline
+31 & & \\
+\hline
+32 & & \\
+\hline
+33 & & \\
+\hline
+34 & & \\
+\hline
+35 & & \\
+\hline
+36 & & \\
+\hline
+37 & & \\
+\hline
+38 & & \\
+\hline
+39 & & \\
+\hline
+40 & & \\
+\hline
+41 & & \\
+\hline
+42 & & \\
+\hline
+43 & & \\
+\hline
+44 & & \\
+\hline
+45 & & \\
+\hline
+46 & & \\
+\hline
+47 & & \\
+\hline
+48 & & \\
+\hline
+49 & & \\
+\hline
+50 & & \\
+\hline
+
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\textwidth}
+\begin{tabular}{|>{\centering\arraybackslash}m{1.3cm}|>{\centering\arraybackslash}m{0.33\textwidth}|>{\centering\arraybackslash}m{0.33\textwidth}|}
+\hline
+\rowcolor{black!92}\textbf{\textcolor{white}{\parbox{1.3cm}{\centering Номер\\[-1pt]партии}}} & \textbf{\textcolor{white}{\parbox{0.33\textwidth}{\centering Белые\\[-1pt](гроссмейстер)}}} & \textbf{\textcolor{white}{\parbox{0.33\textwidth}{\centering Чёрные\\[-1pt](машина)}}}\\
+\hline
+51 & & \\
+\hline
+52 & & \\
+\hline
+53 & & \\
+\hline
+54 & & \\
+\hline
+55 & & \\
+\hline
+56 & & \\
+\hline
+57 & & \\
+\hline
+58 & & \\
+\hline
+59 & & \\
+\hline
+60 & & \\
+\hline
+61 & & \\
+\hline
+62 & & \\
+\hline
+63 & & \\
+\hline
+64 & & \\
+\hline
+65 & & \\
+\hline
+66 & & \\
+\hline
+67 & & \\
+\hline
+68 & & \\
+\hline
+69 & & \\
+\hline
+70 & & \\
+\hline
+71 & & \\
+\hline
+72 & & \\
+\hline
+73 & & \\
+\hline
+74 & & \\
+\hline
+75 & & \\
+\hline
+76 & & \\
+\hline
+77 & & \\
+\hline
+78 & & \\
+\hline
+79 & & \\
+\hline
+80 & & \\
+\hline
+81 & & \\
+\hline
+82 & & \\
+\hline
+83 & & \\
+\hline
+84 & & \\
+\hline
+85 & & \\
+\hline
+86 & & \\
+\hline
+87 & & \\
+\hline
+88 & & \\
+\hline
+89 & & \\
+\hline
+90 & & \\
+\hline
+91 & & \\
+\hline
+92 & & \\
+\hline
+93 & & \\
+\hline
+94 & & \\
+\hline
+95 & & \\
+\hline
+96 & & \\
+\hline
+97 & & \\
+\hline
+98 & & \\
+\hline
+99 & & \\
+\hline
+100 & & \\
+\hline
+
+\end{tabular}
+\end{minipage}
+\end{center}
+
+\vfill
+
+\begin{center}
+{\small \emph{Подсказка:}
+после первых 50 партий постройте график побед и поражений чёрных (машины) и посмотрите, как меняется число выигранных
+машин партий по мере обучения.}
+\end{center}
+
+\newpage
+
+% сетка: X 0..100 (партии), Y -50..+50 (счёт = победы чёрных минус победы белых)
+\newcommand{\maxX}{100}
+\newcommand{\maxY}{50}
+
+\vspace*{\fill}
+
+\begin{center}
+{\LARGE\bfseries График побед и поражений чёрных}\\[0.2em]
+{\small ось X --- номер партии, ось Y --- счёт: победы чёрных минус победы белых}
+\end{center}
+
+\begin{center}
+\begin{tikzpicture}[x=0.155cm, y=0.20cm, line width=0.4pt]
+  % мелкая сетка: каждое деление
+  \foreach \x in {0,...,100} {\draw[black!12] (\x, -\maxY) -- (\x, \maxY);}
+  \foreach \y in {-\maxY,...,0} {\draw[black!12] (0, \y) -- (\maxX, \y);}
+  \foreach \y in {1,...,\maxY} {\draw[black!12] (0, \y) -- (\maxX, \y);}
+  % средняя (нулевая) линия с засечками через 5 (без подписей)
+  \draw[black!55] (0, 0) -- (\maxX, 0);
+  \foreach \x in {5,10,15,...,95} {\draw[black!55] (\x, -0.5) -- (\x, 0.5);}
+
+  % рамка поля
+  \draw[ink, line width=0.8pt] (0, -\maxY) rectangle (\maxX, \maxY);
+
+  % оси
+  \draw[-{Stealth[length=2.5mm,width=1.8mm]}, ink, line width=0.8pt]
+    (-2, -\maxY) -- (\maxX+3, -\maxY) node[below, pos=1, xshift=0.1cm] {};
+  \draw[-{Stealth[length=2.5mm,width=1.8mm]}, ink, line width=0.8pt]
+    (0, -\maxY-2) -- (0, \maxY+3);
+
+  % подписи осей
+  \node[below, font=\scriptsize] at (\maxX/2, -\maxY-4) {номер партии};
+  \node[rotate=90, font=\scriptsize] at (-8, 0) {счёт (победы чёрных $-$ победы белых)};
+  \node[below left, font=\scriptsize] at (0, -\maxY-2) {0};
+
+  % числовые отметки по Y: подписи слева (-50...50) и справа (-45...50, без -50)
+  \foreach \y in {-50,-45,...,50} {
+    \draw (0, \y) -- (0.6, \y);
+    \node[left, font=\scriptsize, xshift=-0.12cm] at (0, \y) {\y};
+  }
+  \foreach \y in {-45,-40,...,50} {
+    \draw (\maxX, \y) -- ({\maxX-0.6}, \y);
+    \node[right, font=\scriptsize, xshift=0.12cm] at (\maxX, \y) {\y};
+  }
+  % числовые отметки по X: подписи снизу и сверху
+  \foreach \x in {5,10,15,...,95} {
+    \draw (\x, -\maxY) -- (\x, {-\maxY+0.6});
+    \draw (\x, \maxY) -- (\x, {\maxY-0.6});
+    \node[below, font=\scriptsize, yshift=-0.12cm] at (\x, -\maxY) {\x};
+    \node[above, font=\scriptsize, yshift=0.12cm] at (\x, \maxY) {\x};
+  }
+
+  % начальная точка (0; 0) --- от неё строится график
+  \fill[black] (0, 0) circle[radius=0.1cm];
+
+  % образец одного хода (вправо +1, вверх +1) --- наклонный отрезок;
+  % раскомментируйте, чтобы увидеть стиль линии графика
+  % \draw[red!75!black, line width=0.6pt, -] (0, 0) -- (1, 1) -- (2, 0) -- (3, 1);
+  % \foreach \px/\py in {0/0, 1/1, 2/0, 3/1} \fill[red!75!black] (\px, \py) circle[radius=0.12cm];
+\end{tikzpicture}
+\end{center}
+
+\vspace*{\fill}
+
+\begin{center}
+{\footnotesize\itshape Как строить график: начиная с точки (0; 0), для каждой партии откладывайте по оси X один шаг
+вправо, а по оси Y --- на одно деление вверх (победа чёрных) или на одно деление вниз (победа белых).
+Отмечайте точки и соединяйте их наклонными прямыми отрезками (не ступеньками):
+каждый отрезок идёт из текущей точки вправо-вверх или вправо-вниз.}
+\end{center}
+
+\end{document}
